@@ -9,11 +9,12 @@ const navItems = [
   { label: "Home", path: "/" },
   { label: "About NCC", path: "/about" },
   { label: "Wings", path: "/wings" },
-  { label: "Enrollment", path: "/enrollment" },
-  { label: "Camps & Events", path: "/events" },
-  { label: "Gallery", path: "/gallery" },
+  { label: "Enrollment Criteria", path: "/enrollment" },
+  { label: "Events", path: "/events" },
+  { label: "Camps", path: "/camps" },
   { label: "Achievements", path: "/achievements" },
-  { label: "Contact", path: "/contact" },
+  { label: "Gallery", path: "/gallery" },
+  { label: "Contact Us", path: "/contact" },
 ];
 
 const Header = () => {
@@ -42,13 +43,13 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-24">
           {/* Left Logo - NCC */}
           <Link to="/" className="flex items-center gap-3 group">
             <img
               src={nccLogo}
               alt="NCC Logo"
-              className="h-14 w-auto transition-transform group-hover:scale-105"
+              className="h-18 w-auto transition-transform group-hover:scale-105"
             />
             <div className="hidden sm:block">
               <h1 className="text-primary-foreground font-bold text-lg leading-tight">
@@ -86,7 +87,7 @@ const Header = () => {
             <img
               src={navrachanaLogo}
               alt="Navrachana University Logo"
-              className="h-14 w-auto transition-transform group-hover:scale-105"
+              className="h-18 w-auto transition-transform group-hover:scale-105"
             />
           </Link>
 
@@ -124,7 +125,7 @@ const Header = () => {
               <img
                 src={navrachanaLogo}
                 alt="Navrachana University Logo"
-                className="h-10 w-auto"
+                className="h-12 w-auto"
               />
               <span className="text-primary-foreground/80 text-sm">
                 Navrachana University NCC Unit
