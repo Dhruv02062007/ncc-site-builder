@@ -1,35 +1,43 @@
 import Layout from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield, Anchor, Plane, ChevronRight, Star, Users, Target, Award } from "lucide-react";
+
 const Wings = () => {
-  const armyRanks = [{
-    rank: "Cadet",
-    description: "Entry level rank for all new cadets"
-  }, {
-    rank: "Lance Corporal",
-    description: "First promotion rank"
-  }, {
-    rank: "Corporal",
-    description: "Junior NCO rank"
-  }, {
-    rank: "Sergeant",
-    description: "Non-commissioned officer"
-  }, {
-    rank: "Company Sergeant Major (CSM)",
-    description: "Senior NCO rank"
-  }, {
-    rank: "Company Quartermaster Sergeant (CQMS)",
-    description: "Senior NCO rank"
-  }, {
-    rank: "Under Officer (UO)",
-    description: "Highest cadet rank"
-  }, {
-    rank: "Senior Under Officer (SUO)",
-    description: "Highest cadet rank in unit"
-  }];
-  const armyActivities = ["Drill and parade", "Weapon training (handling and firing)", "Map reading and navigation", "Field craft and tactics", "First aid and medical training", "Obstacle course training", "Rock climbing and rappelling", "Adventure activities", "Physical training", "Guard of Honour"];
-  const armyCamps = ["Annual Training Camp (ATC)", "Combined Annual Training Camp (CATC)", "Thal Sainik Camp", "Republic Day Camp (RDC)", "National Integration Camps", "Army Attachment Camps"];
-  return <Layout>
+  const armyRanks = [
+    { rank: "Cadet", description: "Entry level rank for all new cadets" },
+    { rank: "Lance Corporal", description: "First promotion rank" },
+    { rank: "Corporal", description: "Junior NCO rank" },
+    { rank: "Sergeant", description: "Non-commissioned officer" },
+    { rank: "Company Sergeant Major (CSM)", description: "Senior NCO rank" },
+    { rank: "Company Quartermaster Sergeant (CQMS)", description: "Senior NCO rank" },
+    { rank: "Under Officer (UO)", description: "Highest cadet rank" },
+    { rank: "Senior Under Officer (SUO)", description: "Highest cadet rank in unit" },
+  ];
+
+  const armyActivities = [
+    "Drill and parade",
+    "Weapon training (handling and firing)",
+    "Map reading and navigation",
+    "Field craft and tactics",
+    "First aid and medical training",
+    "Obstacle course training",
+    "Rock climbing and rappelling",
+    "Adventure activities",
+    "Physical training",
+    "Guard of Honour",
+  ];
+
+  const armyCamps = [
+    "Annual Training Camp (ATC)",
+    "Combined Annual Training Camp (CATC)",
+    "Thal Sainik Camp",
+    "Republic Day Camp (RDC)",
+    "National Integration Camps",
+    "Army Attachment Camps",
+  ];
+
+  return (
+    <Layout>
       {/* Hero Section */}
       <section className="pt-28 pb-16 bg-gradient-to-b from-olive to-olive/90">
         <div className="container mx-auto px-4 text-center">
@@ -106,10 +114,12 @@ const Wings = () => {
                   Training Activities
                 </h3>
                 <div className="grid grid-cols-1 gap-2">
-                  {armyActivities.map(item => <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  {armyActivities.map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
                       <ChevronRight className="h-4 w-4 text-olive" />
                       {item}
-                    </div>)}
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -120,9 +130,11 @@ const Wings = () => {
                   Major Camps
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {armyCamps.map(camp => <span key={camp} className="px-3 py-2 rounded-lg text-sm font-medium bg-olive text-olive-foreground">
+                  {armyCamps.map((camp) => (
+                    <span key={camp} className="px-3 py-2 rounded-lg text-sm font-medium bg-olive text-olive-foreground">
                       {camp}
-                    </span>)}
+                    </span>
+                  ))}
                 </div>
                 <p className="text-muted-foreground text-sm mt-4">
                   Cadets participate in various camps throughout the year, gaining hands-on 
@@ -151,9 +163,8 @@ const Wings = () => {
             <div className="relative">
               <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-olive/30 hidden md:block" />
               <div className="space-y-4">
-                {armyRanks.map((item, index) => <div key={item.rank} className="flex items-start gap-4 animate-fade-in" style={{
-                animationDelay: `${index * 50}ms`
-              }}>
+                {armyRanks.map((item, index) => (
+                  <div key={item.rank} className="flex items-start gap-4 animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
                     <div className="h-12 w-12 rounded-full bg-olive flex items-center justify-center shrink-0 z-10">
                       <Star className="h-5 w-5 text-olive-foreground" />
                     </div>
@@ -168,7 +179,8 @@ const Wings = () => {
                         </div>
                       </CardContent>
                     </Card>
-                  </div>)}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -242,6 +254,8 @@ const Wings = () => {
           </a>
         </div>
       </section>
-    </Layout>;
+    </Layout>
+  );
 };
+
 export default Wings;
