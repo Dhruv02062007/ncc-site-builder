@@ -217,7 +217,7 @@ const Index = () => {
               size="lg"
               className="bg-saffron hover:bg-saffron/90 text-saffron-foreground font-semibold px-8"
             >
-              <Link to="/enrollment">Enroll Now</Link>
+              <Link to="/contact">Contact Us</Link>
             </Button>
             <Button
               asChild
@@ -225,7 +225,7 @@ const Index = () => {
               size="lg"
               className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
             >
-              <Link to="/contact">Contact Us</Link>
+              <Link to="/enrollment">Enrollment Criteria</Link>
             </Button>
           </div>
         </div>

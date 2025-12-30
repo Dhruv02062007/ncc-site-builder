@@ -49,7 +49,7 @@ const Hero = () => {
               className="bg-saffron hover:bg-saffron/90 text-saffron-foreground font-semibold px-8 py-6 text-lg group"
             >
               <Link to="/enrollment">
-                Enroll Now
+                Enrollment Criteria
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
