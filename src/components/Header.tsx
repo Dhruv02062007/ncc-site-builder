@@ -42,30 +42,30 @@ const Header = () => {
           : "bg-primary"
       }`}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-24">
+      <div className="container mx-auto px-2 sm:px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Left Logo - NCC */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
             <img
               src={nccLogo}
               alt="NCC Logo"
-              className="h-18 w-auto transition-transform group-hover:scale-105"
+              className="h-12 w-auto transition-transform group-hover:scale-105"
             />
             <div className="hidden sm:block">
-              <h1 className="text-primary-foreground font-bold text-lg leading-tight">
+              <h1 className="text-primary-foreground font-bold text-sm leading-tight">
                 National Cadet Corps
               </h1>
-              <p className="text-primary-foreground/80 text-xs">Unity and Discipline</p>
+              <p className="text-primary-foreground/80 text-[10px]">Unity and Discipline</p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0.5 flex-1 justify-center">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                className={`px-2 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap ${
                   location.pathname === item.path
                     ? "bg-saffron text-saffron-foreground"
                     : "text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10"
@@ -77,17 +77,17 @@ const Header = () => {
           </nav>
 
           {/* Right Logo - Navrachana */}
-          <Link to="/" className="hidden md:flex items-center gap-3 group">
+          <Link to="/" className="hidden md:flex items-center gap-2 group flex-shrink-0">
             <div className="text-right hidden sm:block">
-              <h2 className="text-primary-foreground font-semibold text-sm leading-tight">
+              <h2 className="text-primary-foreground font-semibold text-xs leading-tight">
                 Navrachana University
               </h2>
-              <p className="text-primary-foreground/80 text-xs">NCC Unit</p>
+              <p className="text-primary-foreground/80 text-[10px]">NCC Unit</p>
             </div>
             <img
               src={navrachanaLogo}
               alt="Navrachana University Logo"
-              className="h-18 w-auto transition-transform group-hover:scale-105"
+              className="h-12 w-auto transition-transform group-hover:scale-105"
             />
           </Link>
 
