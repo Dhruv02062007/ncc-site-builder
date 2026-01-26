@@ -1,257 +1,217 @@
 import Layout from "@/components/Layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Shield, Anchor, Plane, ChevronRight, Star, Users, Target, Award } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+
+interface CouncilMember {
+  name: string;
+  role: string;
+  image?: string;
+}
+
+interface YearCouncil {
+  ano: CouncilMember;
+  staff: CouncilMember[];
+  rankHolders: CouncilMember[];
+  coordinators: CouncilMember[];
+}
 
 const Wings = () => {
-  const armyRanks = [
-    { rank: "Cadet", description: "Entry level rank for all new cadets" },
-    { rank: "Lance Corporal", description: "First promotion rank" },
-    { rank: "Corporal", description: "Junior NCO rank" },
-    { rank: "Sergeant", description: "Non-commissioned officer" },
-    { rank: "Company Sergeant Major (CSM)", description: "Senior NCO rank" },
-    { rank: "Company Quartermaster Sergeant (CQMS)", description: "Senior NCO rank" },
-    { rank: "Under Officer (UO)", description: "Highest cadet rank" },
-    { rank: "Senior Under Officer (SUO)", description: "Highest cadet rank in unit" },
-  ];
+  const years = ["2025", "2024", "2023"];
+  const [selectedYear, setSelectedYear] = useState("2024");
 
-  const armyActivities = [
-    "Drill and parade",
-    "Weapon training (handling and firing)",
-    "Map reading and navigation",
-    "Field craft and tactics",
-    "First aid and medical training",
-    "Obstacle course training",
-    "Rock climbing and rappelling",
-    "Adventure activities",
-    "Physical training",
-    "Guard of Honour",
-  ];
+  const councilData: Record<string, YearCouncil> = {
+    "2025": {
+      ano: { name: "ANO Name", role: "ANO" },
+      staff: [
+        { name: "CTO Name", role: "CTO" },
+        { name: "Instructor Name", role: "Drill Instructor" },
+      ],
+      rankHolders: [
+        { name: "Cadet Name", role: "SUO" },
+        { name: "Cadet Name", role: "JUO" },
+        { name: "Cadet Name", role: "JUO" },
+        { name: "Cadet Name", role: "CQMS" },
+        { name: "Cadet Name", role: "Sergeant" },
+        { name: "Cadet Name", role: "Lance Corporal" },
+        { name: "Cadet Name", role: "Corporal" },
+      ],
+      coordinators: [
+        { name: "Coordinator 1", role: "Coordinator" },
+        { name: "Coordinator 2", role: "Coordinator" },
+        { name: "Coordinator 3", role: "Coordinator" },
+      ],
+    },
+    "2024": {
+      ano: { name: "ANO Name", role: "ANO" },
+      staff: [
+        { name: "CTO Name", role: "CTO" },
+        { name: "Instructor Name", role: "Drill Instructor" },
+      ],
+      rankHolders: [
+        { name: "Cadet Name", role: "SUO" },
+        { name: "Cadet Name", role: "JUO" },
+        { name: "Cadet Name", role: "JUO" },
+        { name: "Cadet Name", role: "CQMS" },
+        { name: "Cadet Name", role: "Sergeant" },
+        { name: "Cadet Name", role: "Lance Corporal" },
+        { name: "Cadet Name", role: "Corporal" },
+      ],
+      coordinators: [
+        { name: "Coordinator 1", role: "Coordinator" },
+        { name: "Coordinator 2", role: "Coordinator" },
+        { name: "Coordinator 3", role: "Coordinator" },
+      ],
+    },
+    "2023": {
+      ano: { name: "ANO Name", role: "ANO" },
+      staff: [
+        { name: "CTO Name", role: "CTO" },
+        { name: "Instructor Name", role: "Drill Instructor" },
+      ],
+      rankHolders: [
+        { name: "Cadet Name", role: "SUO" },
+        { name: "Cadet Name", role: "JUO" },
+        { name: "Cadet Name", role: "CQMS" },
+        { name: "Cadet Name", role: "Sergeant" },
+        { name: "Cadet Name", role: "Corporal" },
+      ],
+      coordinators: [
+        { name: "Coordinator 1", role: "Coordinator" },
+        { name: "Coordinator 2", role: "Coordinator" },
+      ],
+    },
+  };
 
-  const armyCamps = [
-    "Annual Training Camp (ATC)",
-    "Combined Annual Training Camp (CATC)",
-    "Thal Sainik Camp",
-    "Republic Day Camp (RDC)",
-    "National Integration Camps",
-    "Army Attachment Camps",
-  ];
+  const currentData = councilData[selectedYear];
+
+  const navigateYear = (direction: "prev" | "next") => {
+    const currentIndex = years.indexOf(selectedYear);
+    if (direction === "prev" && currentIndex > 0) {
+      setSelectedYear(years[currentIndex - 1]);
+    } else if (direction === "next" && currentIndex < years.length - 1) {
+      setSelectedYear(years[currentIndex + 1]);
+    }
+  };
+
+  const MemberCard = ({ member, size = "normal" }: { member: CouncilMember; size?: "large" | "normal" | "small" }) => {
+    const sizeClasses = {
+      large: "w-40 h-40",
+      normal: "w-28 h-28",
+      small: "w-24 h-24",
+    };
+
+    return (
+      <div className="flex flex-col items-center gap-2">
+        <div className={`${sizeClasses[size]} rounded-full bg-secondary overflow-hidden border-4 border-background shadow-lg`}>
+          {member.image ? (
+            <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-muted to-secondary flex items-center justify-center">
+              <span className="text-muted-foreground text-2xl font-semibold">
+                {member.name.charAt(0)}
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground">{member.name}</p>
+          <p className="font-bold text-foreground">{member.role}</p>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-olive to-olive/90">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-olive-foreground mb-4 animate-fade-in">
-            NCC <span className="text-saffron">Wings</span>
-          </h1>
-          <p className="text-olive-foreground/80 max-w-2xl mx-auto animate-fade-in animation-delay-100">
-            NCC is a tri-services organization. Navrachana University proudly represents 
-            the <strong>Army Wing</strong>, training cadets in ground-based military disciplines.
-          </p>
-        </div>
-      </section>
-
-      {/* Army Wing - Featured Section */}
-      <section className="py-16 bg-background">
+      {/* Main Content */}
+      <section className="pt-28 pb-20 bg-secondary min-h-screen">
         <div className="container mx-auto px-4">
+          {/* Title */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-olive/10 border border-olive/30 rounded-full px-4 py-2 mb-4">
-              <Shield className="h-5 w-5 text-olive" />
-              <span className="text-olive font-semibold">Our Wing</span>
+            <div className="w-16 h-1 bg-primary mx-auto mb-4" />
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+              Meet the Councils
+            </h1>
+          </div>
+
+          {/* Year Selector */}
+          <div className="flex items-center justify-center gap-2 mb-16">
+            <button
+              onClick={() => navigateYear("prev")}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+              disabled={years.indexOf(selectedYear) === 0}
+            >
+              <ChevronLeft className="w-5 h-5 text-muted-foreground" />
+            </button>
+            
+            {years.map((year) => (
+              <button
+                key={year}
+                onClick={() => setSelectedYear(year)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  selectedYear === year
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                {year}
+              </button>
+            ))}
+            
+            <button
+              onClick={() => navigateYear("next")}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+              disabled={years.indexOf(selectedYear) === years.length - 1}
+            >
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </button>
+          </div>
+
+          {/* ANO Section */}
+          <div className="flex justify-center mb-12">
+            <MemberCard member={currentData.ano} size="large" />
+          </div>
+
+          {/* Staff Section */}
+          <div className="flex justify-center gap-24 md:gap-40 mb-16">
+            {currentData.staff.map((member, index) => (
+              <MemberCard key={index} member={member} size="normal" />
+            ))}
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-border my-12" />
+
+          {/* Rank Holders Section */}
+          <div className="mb-16">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-1 bg-primary" />
+              <h2 className="text-2xl font-bold text-foreground">Rank Holders</h2>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              <span className="text-olive">Army Wing</span> - Navrachana University
-            </h2>
-            <p className="text-muted-foreground max-w-3xl mx-auto">
-              The Army Wing is the largest wing of NCC, providing comprehensive ground-based 
-              military training. Our unit at Navrachana University trains cadets to become 
-              disciplined, confident leaders ready to serve the nation.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-            <Card className="bg-olive/5 border-olive/20">
-              <CardContent className="p-6 text-center">
-                <div className="h-16 w-16 rounded-full bg-olive flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8 text-olive-foreground" />
-                </div>
-                <h3 className="font-bold text-xl text-foreground mb-2">Ground Training</h3>
-                <p className="text-muted-foreground text-sm">
-                  Comprehensive training in drill, weapon handling, map reading, and field craft.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-olive/5 border-olive/20">
-              <CardContent className="p-6 text-center">
-                <div className="h-16 w-16 rounded-full bg-olive flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-8 w-8 text-olive-foreground" />
-                </div>
-                <h3 className="font-bold text-xl text-foreground mb-2">Leadership</h3>
-                <p className="text-muted-foreground text-sm">
-                  Develop command skills through practical exercises and responsibility.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-olive/5 border-olive/20">
-              <CardContent className="p-6 text-center">
-                <div className="h-16 w-16 rounded-full bg-olive flex items-center justify-center mx-auto mb-4">
-                  <Target className="h-8 w-8 text-olive-foreground" />
-                </div>
-                <h3 className="font-bold text-xl text-foreground mb-2">Adventure</h3>
-                <p className="text-muted-foreground text-sm">
-                  Rock climbing, trekking, obstacle courses, and outdoor survival skills.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Training Activities & Camps */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="border-olive/30">
-              <CardContent className="p-6">
-                <h3 className="font-bold text-xl text-foreground mb-4 flex items-center gap-2">
-                  <Award className="h-5 w-5 text-olive" />
-                  Training Activities
-                </h3>
-                <div className="grid grid-cols-1 gap-2">
-                  {armyActivities.map((item) => (
-                    <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <ChevronRight className="h-4 w-4 text-olive" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="border-olive/30">
-              <CardContent className="p-6">
-                <h3 className="font-bold text-xl text-foreground mb-4 flex items-center gap-2">
-                  <Target className="h-5 w-5 text-olive" />
-                  Major Camps
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {armyCamps.map((camp) => (
-                    <span key={camp} className="px-3 py-2 rounded-lg text-sm font-medium bg-olive text-olive-foreground">
-                      {camp}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-muted-foreground text-sm mt-4">
-                  Cadets participate in various camps throughout the year, gaining hands-on 
-                  experience and competing at state and national levels.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Army Rank Structure */}
-      <section className="py-16 bg-olive/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Army Wing <span className="text-olive">Rank Structure</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              NCC cadets progress through various ranks based on performance, 
-              leadership qualities, and participation in activities.
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-olive/30 hidden md:block" />
-              <div className="space-y-4">
-                {armyRanks.map((item, index) => (
-                  <div key={item.rank} className="flex items-start gap-4 animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
-                    <div className="h-12 w-12 rounded-full bg-olive flex items-center justify-center shrink-0 z-10">
-                      <Star className="h-5 w-5 text-olive-foreground" />
-                    </div>
-                    <Card className="flex-1">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h4 className="font-semibold text-foreground">{item.rank}</h4>
-                            <p className="text-muted-foreground text-sm">{item.description}</p>
-                          </div>
-                          <div className="text-olive font-bold text-lg">{index + 1}</div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-              </div>
+            
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12">
+              {currentData.rankHolders.map((member, index) => (
+                <MemberCard key={index} member={member} size="normal" />
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Other Wings - Brief Info */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Other NCC <span className="text-primary">Wings</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              While Navrachana University represents the Army Wing, NCC also has Naval and Air Wings 
-              in other institutions.
-            </p>
+          {/* Divider */}
+          <div className="border-t border-border my-12" />
+
+          {/* Coordinators Section */}
+          <div>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-1 bg-primary" />
+              <h2 className="text-2xl font-bold text-foreground">Coordinators</h2>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+              {currentData.coordinators.map((member, index) => (
+                <MemberCard key={index} member={member} size="normal" />
+              ))}
+            </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <Card className="border-primary/20 opacity-80">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Anchor className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-foreground">Naval Wing</h3>
-                    <span className="text-xs text-muted-foreground">Sea-based Training</span>
-                  </div>
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  Provides training in sailing, boat pulling, swimming, naval tactics, and 
-                  seamanship. Cadets participate in Naval attachment camps and sea training.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-sky-500/20 opacity-80">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-sky-500/10 flex items-center justify-center">
-                    <Plane className="h-6 w-6 text-sky-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-foreground">Air Wing</h3>
-                    <span className="text-xs text-muted-foreground">Aviation Training</span>
-                  </div>
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  Focuses on aeromodelling, gliding, flying, and air force familiarization. 
-                  Cadets learn basic aviation theory and participate in air-related activities.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-olive">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-olive-foreground mb-4">
-            Join the Army Wing at Navrachana
-          </h2>
-          <p className="text-olive-foreground/80 max-w-xl mx-auto mb-6">
-            Learn about enrollment criteria and start your NCC journey today.
-          </p>
-          <a href="/enrollment" className="inline-flex items-center gap-2 bg-saffron hover:bg-saffron/90 text-saffron-foreground px-6 py-3 rounded-lg font-semibold transition-colors">
-            Enrollment Criteria
-          </a>
         </div>
       </section>
     </Layout>
