@@ -78,7 +78,7 @@ const Header = () => {
               asChild
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 font-medium"
             >
-              <Link to="/enrollment">Enrollment</Link>
+              <Link to="/contact">Contact Us</Link>
             </Button>
             
             {/* University Logos */}
@@ -125,10 +125,10 @@ const Header = () => {
                 </Link>
               ))}
               <Link
-                to="/enrollment"
+                to="/contact"
                 className="mt-2 px-4 py-3 text-sm font-medium bg-primary text-primary-foreground rounded-lg text-center"
               >
-                Enrollment
+                Contact Us
               </Link>
             </div>
             {/* Mobile Logos */}
