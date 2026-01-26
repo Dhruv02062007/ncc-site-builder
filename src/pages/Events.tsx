@@ -1,158 +1,261 @@
 import Layout from "@/components/Layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, MapPin, Clock, Users } from "lucide-react";
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+
+interface Event {
+  date: string;
+  title: string;
+  description: string;
+  images: string[];
+}
+
+interface YearEvents {
+  [key: string]: Event[];
+}
+
+const eventsData: YearEvents = {
+  "2025": [
+    {
+      date: "21st June",
+      title: "International Day of Yoga",
+      description: "We have registered to organize Yoga Sangam as part of the International Day of Yoga 2025 (#IDY2025). Yoga Sangam is the central initiative of this year's celebration – a nationwide, synchronized yet distributed mass yoga demonstration based on the Common Yoga Protocol (CYP). It aims to unite participants across more than 1,00,000 locations throughout India on 21st June 2025. On this occasion, our NCC cadets demonstrated commendable enthusiasm by participating in yoga sessions from wherever they were. Their commitment reflects the discipline and dedication towards health, wellness, and the values that NCC stands for.",
+      images: [
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&h=400&fit=crop",
+      ],
+    },
+    {
+      date: "17th June",
+      title: "Motivational Session",
+      description: "An inspiring motivational session was conducted for NCC cadets featuring distinguished speakers who shared their experiences and insights on leadership, discipline, and nation-building.",
+      images: [
+        "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=400&fit=crop",
+      ],
+    },
+    {
+      date: "26th May to 4th June",
+      title: "Combined Annual Training Camp",
+      description: "The Combined Annual Training Camp (CATC) was organized where cadets underwent rigorous training including drill, weapon training, map reading, and various adventure activities. The camp strengthened camaraderie among cadets from different institutions.",
+      images: [
+        "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=400&fit=crop",
+      ],
+    },
+    {
+      date: "26th January",
+      title: "Republic Day Celebration",
+      description: "NCC cadets participated in the Republic Day celebrations with great enthusiasm. The event included flag hoisting ceremony, parade, and cultural programs showcasing the spirit of patriotism and national unity.",
+      images: [
+        "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=400&h=400&fit=crop",
+      ],
+    },
+  ],
+  "2024": [
+    {
+      date: "26th November",
+      title: "NCC Day Celebration",
+      description: "Celebrated NCC Day with various activities including parade, cultural performances, and felicitation of outstanding cadets. The day commemorated the formation of NCC and its contributions to nation-building.",
+      images: [
+        "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&h=400&fit=crop",
+      ],
+    },
+    {
+      date: "15th August",
+      title: "Independence Day Celebration",
+      description: "Grand celebration of Independence Day with flag hoisting, patriotic songs, and a march past by NCC cadets. The event instilled a sense of pride and responsibility towards the nation.",
+      images: [
+        "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=400&h=400&fit=crop",
+      ],
+    },
+    {
+      date: "21st June",
+      title: "International Day of Yoga",
+      description: "Cadets participated in yoga sessions to promote health and wellness. The event emphasized the importance of physical fitness and mental well-being in the life of a cadet.",
+      images: [
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop",
+      ],
+    },
+    {
+      date: "2nd October",
+      title: "Swachh Bharat Abhiyan",
+      description: "Cleanliness drive conducted in and around the university campus as part of the Swachh Bharat initiative. Cadets actively participated in cleaning public spaces and spreading awareness about hygiene.",
+      images: [
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
+      ],
+    },
+  ],
+};
+
+const years = Object.keys(eventsData).sort((a, b) => parseInt(b) - parseInt(a));
 
 const Events = () => {
-  const upcomingEvents = [
-    {
-      title: "Republic Day Parade Practice",
-      date: "January 15, 2025",
-      time: "6:00 AM - 9:00 AM",
-      location: "University Ground",
-      description: "Intensive parade practice sessions for Republic Day celebrations.",
-      participants: "All Cadets",
-    },
-    {
-      title: "Independence Day Celebration",
-      date: "August 15, 2025",
-      time: "7:00 AM - 11:00 AM",
-      location: "University Campus",
-      description: "Flag hoisting ceremony and cultural programs.",
-      participants: "All Cadets",
-    },
-    {
-      title: "Blood Donation Camp",
-      date: "February 20, 2025",
-      time: "9:00 AM - 4:00 PM",
-      location: "University Auditorium",
-      description: "Annual blood donation drive in collaboration with Red Cross.",
-      participants: "Volunteers",
-    },
-  ];
+  const [selectedYear, setSelectedYear] = useState(years[0]);
 
-  const pastEvents = [
-    {
-      title: "NCC Day Celebration",
-      date: "November 26, 2024",
-      description: "Celebrated NCC Day with various activities and performances.",
-    },
-    {
-      title: "Swachh Bharat Abhiyan",
-      date: "October 2, 2024",
-      description: "Cleanliness drive conducted in and around the university campus.",
-    },
-    {
-      title: "Tree Plantation Drive",
-      date: "July 15, 2024",
-      description: "Planted 500+ saplings as part of environmental conservation efforts.",
-    },
-  ];
+  const handlePrevYear = () => {
+    const currentIndex = years.indexOf(selectedYear);
+    if (currentIndex < years.length - 1) {
+      setSelectedYear(years[currentIndex + 1]);
+    }
+  };
+
+  const handleNextYear = () => {
+    const currentIndex = years.indexOf(selectedYear);
+    if (currentIndex > 0) {
+      setSelectedYear(years[currentIndex - 1]);
+    }
+  };
+
+  const currentEvents = eventsData[selectedYear] || [];
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-primary to-primary/90">
+      <section className="pt-28 pb-8 bg-secondary">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4 animate-fade-in">
-            NCC <span className="text-saffron">Events</span>
+          <div className="section-divider mb-4" />
+          <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
+            Our Events
           </h1>
-          <p className="text-primary-foreground/80 max-w-2xl mx-auto animate-fade-in animation-delay-100">
-            Stay updated with all the events, celebrations, and activities organized 
-            by the NCC Unit at Navrachana University.
-          </p>
         </div>
       </section>
 
-      {/* Upcoming Events */}
-      <section className="py-16 bg-background">
+      {/* Year Selector */}
+      <section className="py-8 bg-secondary">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Upcoming <span className="text-primary">Events</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Mark your calendars for these upcoming NCC events and activities.
-            </p>
-          </div>
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={handlePrevYear}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+              disabled={years.indexOf(selectedYear) === years.length - 1}
+            >
+              <ChevronLeft className="h-5 w-5 text-muted-foreground" />
+            </button>
+            
+            <div className="flex items-center gap-2">
+              {years.map((year) => (
+                <button
+                  key={year}
+                  onClick={() => setSelectedYear(year)}
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                    selectedYear === year
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingEvents.map((event, index) => (
-              <Card 
-                key={event.title} 
-                className="hover:shadow-lg transition-all duration-300 border-border/50 hover:border-primary/30 animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 text-saffron mb-4">
-                    <Calendar className="h-5 w-5" />
-                    <span className="font-medium">{event.date}</span>
-                  </div>
-                  <h3 className="font-bold text-xl text-foreground mb-3">{event.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-4">{event.description}</p>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Clock className="h-4 w-4 text-primary" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="h-4 w-4 text-primary" />
-                      <span>{event.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Users className="h-4 w-4 text-primary" />
-                      <span>{event.participants}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            <button
+              onClick={handleNextYear}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+              disabled={years.indexOf(selectedYear) === 0}
+            >
+              <ChevronRight className="h-5 w-5 text-muted-foreground" />
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Past Events */}
-      <section className="py-16 bg-secondary/30">
+      {/* Events Timeline */}
+      <section className="py-12 bg-secondary min-h-[60vh]">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Past <span className="text-olive">Events</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              A glimpse of events and activities successfully conducted by our NCC unit.
-            </p>
-          </div>
+          <div className="max-w-4xl mx-auto">
+            {/* Timeline */}
+            <div className="relative">
+              {/* Vertical Line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-border h-full hidden md:block" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {pastEvents.map((event, index) => (
-              <Card 
-                key={event.title} 
-                className="bg-background animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 text-olive mb-3">
-                    <Calendar className="h-4 w-4" />
-                    <span className="text-sm font-medium">{event.date}</span>
+              {currentEvents.map((event, index) => (
+                <div
+                  key={`${selectedYear}-${index}`}
+                  className={`relative mb-16 animate-fade-in`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {/* Date Badge - Centered on timeline */}
+                  <div className="flex justify-center mb-6">
+                    <span className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium z-10">
+                      {event.date}
+                    </span>
                   </div>
-                  <h3 className="font-semibold text-lg text-foreground mb-2">{event.title}</h3>
-                  <p className="text-muted-foreground text-sm">{event.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Placeholder for more events */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4 text-center">
-          <div className="border-2 border-dashed border-border rounded-xl p-12">
-            <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-foreground mb-2">More Events Coming Soon</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This section will be updated with more events and detailed event information. 
-              Check back regularly for updates!
-            </p>
+                  {/* Content - Alternating layout */}
+                  <div className={`flex flex-col md:flex-row items-center gap-8 ${
+                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                  }`}>
+                    {/* Text Content */}
+                    <div className={`flex-1 ${index % 2 === 0 ? "md:text-left md:pr-8" : "md:text-right md:pl-8"}`}>
+                      <div className={`inline-block w-12 h-1 bg-primary mb-4 ${index % 2 === 0 ? "" : "md:ml-auto"}`} />
+                      <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground mb-4">
+                        {event.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                        {event.description}
+                      </p>
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                      >
+                        <Link to="/gallery">View Gallery</Link>
+                      </Button>
+                    </div>
+
+                    {/* Images */}
+                    <div className="flex-1 flex justify-center">
+                      {event.images.length === 1 ? (
+                        <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-card shadow-lg">
+                          <img
+                            src={event.images[0]}
+                            alt={event.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="relative w-64 h-64 md:w-80 md:h-80">
+                          {/* Multiple circular images in a cluster */}
+                          <div className="absolute top-0 right-0 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-card shadow-lg z-10">
+                            <img
+                              src={event.images[0]}
+                              alt={`${event.title} 1`}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          {event.images[1] && (
+                            <div className="absolute bottom-0 left-0 w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-card shadow-lg z-20">
+                              <img
+                                src={event.images[1]}
+                                alt={`${event.title} 2`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          )}
+                          {event.images[2] && (
+                            <div className="absolute bottom-8 right-8 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-card shadow-lg z-30">
+                              <img
+                                src={event.images[2]}
+                                alt={`${event.title} 3`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {currentEvents.length === 0 && (
+              <div className="text-center py-16">
+                <p className="text-muted-foreground">No events found for {selectedYear}.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
