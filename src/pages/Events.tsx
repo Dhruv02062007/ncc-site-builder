@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import ScrollReveal from "@/components/ScrollReveal";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -92,6 +94,7 @@ const years = Object.keys(eventsData).sort((a, b) => parseInt(b) - parseInt(a));
 
 const Events = () => {
   const [selectedYear, setSelectedYear] = useState(years[0]);
+  const [hoveredEvent, setHoveredEvent] = useState<number | null>(null);
 
   const handlePrevYear = () => {
     const currentIndex = years.indexOf(selectedYear);
@@ -114,49 +117,59 @@ const Events = () => {
       {/* Hero Section */}
       <section className="pt-28 pb-8 bg-secondary">
         <div className="container mx-auto px-4 text-center">
-          <div className="section-divider mb-4" />
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-            Our Events
-          </h1>
+          <ScrollReveal>
+            <div className="w-16 h-1 bg-primary mx-auto mb-4" />
+            <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
+              Our Events
+            </h1>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Year Selector */}
       <section className="py-8 bg-secondary">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={handlePrevYear}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
-              disabled={years.indexOf(selectedYear) === years.length - 1}
-            >
-              <ChevronLeft className="h-5 w-5 text-muted-foreground" />
-            </button>
-            
-            <div className="flex items-center gap-2">
-              {years.map((year) => (
-                <button
-                  key={year}
-                  onClick={() => setSelectedYear(year)}
-                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedYear === year
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  }`}
-                >
-                  {year}
-                </button>
-              ))}
-            </div>
+          <ScrollReveal delay={0.1}>
+            <div className="flex items-center justify-center gap-4">
+              <motion.button
+                onClick={handlePrevYear}
+                className="p-2 rounded-full hover:bg-muted transition-colors"
+                disabled={years.indexOf(selectedYear) === years.length - 1}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ChevronLeft className="h-5 w-5 text-muted-foreground" />
+              </motion.button>
+              
+              <div className="flex items-center gap-2">
+                {years.map((year) => (
+                  <motion.button
+                    key={year}
+                    onClick={() => setSelectedYear(year)}
+                    className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                      selectedYear === year
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    }`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {year}
+                  </motion.button>
+                ))}
+              </div>
 
-            <button
-              onClick={handleNextYear}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
-              disabled={years.indexOf(selectedYear) === 0}
-            >
-              <ChevronRight className="h-5 w-5 text-muted-foreground" />
-            </button>
-          </div>
+              <motion.button
+                onClick={handleNextYear}
+                className="p-2 rounded-full hover:bg-muted transition-colors"
+                disabled={years.indexOf(selectedYear) === 0}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </motion.button>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -170,84 +183,118 @@ const Events = () => {
               <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-border h-full hidden md:block" />
 
               {currentEvents.map((event, index) => (
-                <div
+                <ScrollReveal
                   key={`${selectedYear}-${index}`}
-                  className={`relative mb-16 animate-fade-in`}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  delay={index * 0.1}
+                  direction={index % 2 === 0 ? "left" : "right"}
                 >
-                  {/* Date Badge - Centered on timeline */}
-                  <div className="flex justify-center mb-6">
-                    <span className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium z-10">
-                      {event.date}
-                    </span>
-                  </div>
-
-                  {/* Content - Alternating layout */}
-                  <div className={`flex flex-col md:flex-row items-center gap-8 ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  }`}>
-                    {/* Text Content */}
-                    <div className={`flex-1 ${index % 2 === 0 ? "md:text-left md:pr-8" : "md:text-right md:pl-8"}`}>
-                      <div className={`inline-block w-12 h-1 bg-primary mb-4 ${index % 2 === 0 ? "" : "md:ml-auto"}`} />
-                      <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground mb-4">
-                        {event.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                        {event.description}
-                      </p>
-                      <Button
-                        asChild
-                        variant="outline"
-                        size="sm"
-                        className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  <motion.div
+                    className="relative mb-16"
+                    onMouseEnter={() => setHoveredEvent(index)}
+                    onMouseLeave={() => setHoveredEvent(null)}
+                  >
+                    {/* Date Badge - Centered on timeline */}
+                    <div className="flex justify-center mb-6">
+                      <motion.span 
+                        className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium z-10"
+                        whileHover={{ scale: 1.1 }}
                       >
-                        <Link to="/gallery">View Gallery</Link>
-                      </Button>
+                        {event.date}
+                      </motion.span>
                     </div>
 
-                    {/* Images */}
-                    <div className="flex-1 flex justify-center">
-                      {event.images.length === 1 ? (
-                        <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-card shadow-lg">
-                          <img
-                            src={event.images[0]}
-                            alt={event.title}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div className="relative w-64 h-64 md:w-80 md:h-80">
-                          {/* Multiple circular images in a cluster */}
-                          <div className="absolute top-0 right-0 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-card shadow-lg z-10">
+                    {/* Content - Alternating layout */}
+                    <div className={`flex flex-col md:flex-row items-center gap-8 ${
+                      index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                    }`}>
+                      {/* Text Content */}
+                      <div className={`flex-1 ${index % 2 === 0 ? "md:text-left md:pr-8" : "md:text-right md:pl-8"}`}>
+                        <div className={`inline-block w-12 h-1 bg-primary mb-4 ${index % 2 === 0 ? "" : "md:ml-auto"}`} />
+                        <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground mb-4">
+                          {event.title}
+                        </h3>
+                        
+                        {/* Description with hover expand */}
+                        <motion.p 
+                          className="text-muted-foreground text-sm leading-relaxed mb-4"
+                          animate={{
+                            height: hoveredEvent === index ? "auto" : "4.5rem",
+                          }}
+                          style={{ overflow: "hidden" }}
+                        >
+                          {event.description}
+                        </motion.p>
+                        
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                        >
+                          <Link to="/gallery">View Gallery</Link>
+                        </Button>
+                      </div>
+
+                      {/* Images */}
+                      <div className="flex-1 flex justify-center">
+                        {event.images.length === 1 ? (
+                          <motion.div 
+                            className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-card shadow-lg"
+                            whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.2)" }}
+                            transition={{ duration: 0.3 }}
+                          >
                             <img
                               src={event.images[0]}
-                              alt={`${event.title} 1`}
+                              alt={event.title}
                               className="w-full h-full object-cover"
                             />
+                          </motion.div>
+                        ) : (
+                          <div className="relative w-64 h-64 md:w-80 md:h-80">
+                            {/* Multiple circular images in a cluster */}
+                            <motion.div 
+                              className="absolute top-0 right-0 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-card shadow-lg z-10"
+                              whileHover={{ scale: 1.1, zIndex: 40 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <img
+                                src={event.images[0]}
+                                alt={`${event.title} 1`}
+                                className="w-full h-full object-cover"
+                              />
+                            </motion.div>
+                            {event.images[1] && (
+                              <motion.div 
+                                className="absolute bottom-0 left-0 w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-card shadow-lg z-20"
+                                whileHover={{ scale: 1.1, zIndex: 40 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <img
+                                  src={event.images[1]}
+                                  alt={`${event.title} 2`}
+                                  className="w-full h-full object-cover"
+                                />
+                              </motion.div>
+                            )}
+                            {event.images[2] && (
+                              <motion.div 
+                                className="absolute bottom-8 right-8 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-card shadow-lg z-30"
+                                whileHover={{ scale: 1.1, zIndex: 40 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <img
+                                  src={event.images[2]}
+                                  alt={`${event.title} 3`}
+                                  className="w-full h-full object-cover"
+                                />
+                              </motion.div>
+                            )}
                           </div>
-                          {event.images[1] && (
-                            <div className="absolute bottom-0 left-0 w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-card shadow-lg z-20">
-                              <img
-                                src={event.images[1]}
-                                alt={`${event.title} 2`}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          )}
-                          {event.images[2] && (
-                            <div className="absolute bottom-8 right-8 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-card shadow-lg z-30">
-                              <img
-                                src={event.images[2]}
-                                alt={`${event.title} 3`}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </motion.div>
+                </ScrollReveal>
               ))}
             </div>
 
