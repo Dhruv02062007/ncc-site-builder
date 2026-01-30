@@ -1,235 +1,393 @@
 import Layout from "@/components/Layout";
+import ScrollReveal from "@/components/ScrollReveal";
 import { Card, CardContent } from "@/components/ui/card";
-import { Target, Flag, Award, BookOpen, Music, Heart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { 
+  Info, 
+  Target, 
+  Quote, 
+  Music, 
+  BookOpen, 
+  Flag, 
+  Shirt,
+  Award,
+  History,
+  ChevronRight
+} from "lucide-react";
+
+type SectionId = "about" | "aim" | "motto" | "song" | "pledge" | "flag" | "uniform" | "rank" | "history";
+
+interface NavItem {
+  id: SectionId;
+  label: string;
+  icon: React.ElementType;
+}
+
+const navItems: NavItem[] = [
+  { id: "about", label: "About NCC", icon: Info },
+  { id: "aim", label: "Aim of NCC", icon: Target },
+  { id: "motto", label: "NCC Motto", icon: Quote },
+  { id: "song", label: "NCC Song", icon: Music },
+  { id: "pledge", label: "NCC Pledge", icon: BookOpen },
+  { id: "flag", label: "NCC Flag", icon: Flag },
+  { id: "uniform", label: "NCC Uniform", icon: Shirt },
+  { id: "rank", label: "NCC Rank", icon: Award },
+  { id: "history", label: "History of NCC", icon: History },
+];
+
+const contentData: Record<SectionId, { title: string; content: React.ReactNode }> = {
+  about: {
+    title: "About NCC",
+    content: (
+      <div className="space-y-4">
+        <p className="text-muted-foreground leading-relaxed">
+          The National Cadet Corps (NCC) is a youth development movement. It has enormous potential 
+          for nation-building. The NCC provides opportunities to the youth of the country for their 
+          all-round development with a sense of Duty, Commitment, Dedication, Discipline, and Moral 
+          Values so that they become able leaders and useful citizens.
+        </p>
+        <p className="text-muted-foreground leading-relaxed">
+          The NCC provides exposure to the cadets in a wide range of activities, with a distinct 
+          emphasis on Social Services, Discipline, and Adventure Training. The NCC is open to all 
+          regular students of schools and colleges on a voluntary basis. The cadets have no liability 
+          for active military service.
+        </p>
+        <p className="text-muted-foreground leading-relaxed">
+          NCC is a Tri-Services Organization comprising the Army, Navy and Air Force, engaged in 
+          grooming the youth of the country into disciplined and patriotic citizens.
+        </p>
+      </div>
+    ),
+  },
+  aim: {
+    title: "Aim of NCC",
+    content: (
+      <div className="space-y-4">
+        <p className="text-muted-foreground leading-relaxed">
+          The aim of NCC is to develop character, comradeship, discipline, leadership, secular outlook, 
+          spirit of adventure, and ideals of selfless service amongst the youth of the country.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+          {[
+            { title: "Character Building", desc: "Developing moral and ethical values in cadets" },
+            { title: "Leadership", desc: "Training youth to become future leaders of the nation" },
+            { title: "Discipline", desc: "Instilling a sense of discipline and time management" },
+            { title: "National Integration", desc: "Promoting unity and integrity of the nation" },
+            { title: "Spirit of Adventure", desc: "Encouraging adventure activities and outdoor skills" },
+            { title: "Selfless Service", desc: "Developing ideals of community service" },
+          ].map((item, index) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-secondary/50 rounded-lg p-4"
+            >
+              <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
+              <p className="text-sm text-muted-foreground">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  motto: {
+    title: "NCC Motto",
+    content: (
+      <div className="space-y-6">
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-8 text-center">
+          <h3 className="text-3xl font-bold text-primary mb-2">"Unity and Discipline"</h3>
+          <p className="text-muted-foreground">एकता और अनुशासन</p>
+        </div>
+        <p className="text-muted-foreground leading-relaxed">
+          The motto of NCC is "Unity and Discipline" which emphasizes on the need of unity among 
+          the youth of the nation, irrespective of caste, creed, or religion, and the importance 
+          of being disciplined in all aspects of life.
+        </p>
+        <p className="text-muted-foreground leading-relaxed">
+          This motto inspires cadets to work together as a team, respecting diversity while 
+          maintaining high standards of personal discipline and commitment to national service.
+        </p>
+      </div>
+    ),
+  },
+  song: {
+    title: "NCC Song",
+    content: (
+      <div className="space-y-6">
+        <div className="bg-secondary/50 rounded-xl p-6">
+          <div className="space-y-4 text-foreground font-medium italic">
+            <p>हम सब भारतीय हैं, हम सब भारतीय हैं</p>
+            <p>अपनी मंज़िल एक है, हाँ हाँ हाँ एक है, हो हो हो एक है</p>
+            <p>हम सब भारतीय हैं...</p>
+            <p className="pt-4">कश्मीर की धरती रानी है,</p>
+            <p>सरहद पर जवानों की बानी है</p>
+            <p>नंगे पाँव हिमालय डोले</p>
+            <p>पर्वत चढ़कर आगे बोले</p>
+            <p>हम सब भारतीय हैं...</p>
+          </div>
+        </div>
+        <p className="text-muted-foreground leading-relaxed">
+          The NCC song "Hum Sab Bhartiya Hain" was written by Sudarshan Faakir and composed by 
+          the renowned music director, Late Shri Madan Mohan. It emphasizes national unity and 
+          the shared identity of all Indians as one.
+        </p>
+      </div>
+    ),
+  },
+  pledge: {
+    title: "NCC Pledge",
+    content: (
+      <div className="space-y-6">
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
+          <p className="text-foreground leading-relaxed italic">
+            "We the cadets of the National Cadet Corps, do solemnly pledge that we shall always 
+            uphold the unity of India. We resolve to be disciplined and responsible citizens of 
+            our nation. We shall undertake positive community service in the spirit of selflessness 
+            and concern for our fellow beings."
+          </p>
+        </div>
+        <div className="bg-secondary/50 rounded-xl p-6">
+          <h4 className="font-semibold text-foreground mb-3">हिंदी में शपथ</h4>
+          <p className="text-muted-foreground italic">
+            "हम राष्ट्रीय कैडेट कोर के कैडेट, शपथ लेते हैं कि हम सदैव भारत की एकता बनाए रखेंगे। 
+            हम अनुशासित एवं जिम्मेदार नागरिक बनने का संकल्प लेते हैं। हम निःस्वार्थ भाव से समाज 
+            सेवा करेंगे और अपने साथियों के प्रति सहानुभूतिपूर्ण रहेंगे।"
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  flag: {
+    title: "NCC Flag",
+    content: (
+      <div className="space-y-6">
+        <div className="flex justify-center py-8">
+          <div className="flex shadow-lg rounded-lg overflow-hidden">
+            <div className="w-20 h-32 bg-red-600" />
+            <div className="w-20 h-32 bg-primary" />
+            <div className="w-20 h-32 bg-sky-400" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-red-50 dark:bg-red-950/30 rounded-lg p-4 text-center">
+            <div className="w-8 h-8 bg-red-600 rounded mx-auto mb-2" />
+            <h4 className="font-semibold text-foreground">Red</h4>
+            <p className="text-sm text-muted-foreground">Represents the Army</p>
+          </div>
+          <div className="bg-primary/10 rounded-lg p-4 text-center">
+            <div className="w-8 h-8 bg-primary rounded mx-auto mb-2" />
+            <h4 className="font-semibold text-foreground">Dark Blue</h4>
+            <p className="text-sm text-muted-foreground">Represents the Navy</p>
+          </div>
+          <div className="bg-sky-50 dark:bg-sky-950/30 rounded-lg p-4 text-center">
+            <div className="w-8 h-8 bg-sky-400 rounded mx-auto mb-2" />
+            <h4 className="font-semibold text-foreground">Light Blue</h4>
+            <p className="text-sm text-muted-foreground">Represents the Air Force</p>
+          </div>
+        </div>
+        <p className="text-muted-foreground leading-relaxed">
+          The NCC flag was adopted in 1954. The tri-colour flag with NCC crest in gold in the 
+          middle was introduced symbolizing the tri-service nature of the organization.
+        </p>
+      </div>
+    ),
+  },
+  uniform: {
+    title: "NCC Uniform",
+    content: (
+      <div className="space-y-6">
+        <p className="text-muted-foreground leading-relaxed">
+          The NCC uniform instills a sense of pride, discipline, and belonging among cadets. 
+          Different wings have distinct uniforms reflecting their service affiliation.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { 
+              wing: "Army Wing", 
+              color: "Khaki",
+              details: "Khaki shirt and trousers with NCC badges and rank insignia"
+            },
+            { 
+              wing: "Naval Wing", 
+              color: "White",
+              details: "White uniform with navy blue collar and NCC naval badges"
+            },
+            { 
+              wing: "Air Wing", 
+              color: "Light Blue",
+              details: "Light blue shirt and dark blue trousers with Air Force badges"
+            },
+          ].map((item, index) => (
+            <motion.div
+              key={item.wing}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-secondary/50 rounded-lg p-5"
+            >
+              <h4 className="font-semibold text-foreground mb-2">{item.wing}</h4>
+              <p className="text-sm text-primary font-medium mb-2">{item.color}</p>
+              <p className="text-sm text-muted-foreground">{item.details}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  rank: {
+    title: "NCC Rank Structure",
+    content: (
+      <div className="space-y-6">
+        <p className="text-muted-foreground leading-relaxed">
+          The NCC rank structure helps foster discipline, leadership, and responsibility among 
+          cadets, reflecting the military structure. Senior ranks play pivotal roles in managing 
+          and organizing cadet activities.
+        </p>
+        <div className="space-y-3">
+          {[
+            { rank: "SUO", full: "Senior Under Officer", desc: "Highest rank for NCC cadets" },
+            { rank: "JUO", full: "Junior Under Officer", desc: "Second highest cadet rank" },
+            { rank: "CQMS", full: "Company Quartermaster Sergeant", desc: "Responsible for logistics" },
+            { rank: "CSM", full: "Company Sergeant Major", desc: "Senior enlisted cadet rank" },
+            { rank: "SGT", full: "Sergeant", desc: "Non-commissioned officer rank" },
+            { rank: "CPL", full: "Corporal", desc: "Junior NCO rank" },
+            { rank: "L/CPL", full: "Lance Corporal", desc: "Entry-level NCO rank" },
+            { rank: "CDT", full: "Cadet", desc: "Basic rank for all NCC members" },
+          ].map((item, index) => (
+            <motion.div
+              key={item.rank}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="flex items-center gap-4 bg-secondary/30 rounded-lg p-3 hover:bg-secondary/50 transition-colors"
+            >
+              <div className="w-16 h-10 bg-primary/10 rounded flex items-center justify-center shrink-0">
+                <span className="font-bold text-primary text-sm">{item.rank}</span>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-medium text-foreground">{item.full}</h4>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  history: {
+    title: "History of NCC",
+    content: (
+      <div className="space-y-6">
+        <p className="text-muted-foreground leading-relaxed">
+          The National Cadet Corps came into existence on 16th April 1948 under the NCC Act 
+          of Parliament. It was raised on the recommendations of the H.N. Kunzru Committee in 1946.
+        </p>
+        <div className="space-y-4">
+          {[
+            { year: "1666", event: "Origins in Germany - Student armies were raised by Frederick Wilhelm" },
+            { year: "1917", event: "University Corps formed in India under the British during World War I" },
+            { year: "1920", event: "University Training Corps (UTC) established by Indian Defence Act" },
+            { year: "1942", event: "UTC was renamed as University Officers Training Corps (UOTC)" },
+            { year: "1948", event: "NCC established under the National Cadet Corps Act of India on April 16th" },
+            { year: "1949", event: "Girls Division of NCC added to include women cadets" },
+            { year: "1950", event: "Naval Wing (NCC) was established" },
+            { year: "1952", event: "Air Wing of NCC was established" },
+            { year: "1963", event: "NCC training made compulsory after Indo-China conflict" },
+            { year: "1968", event: "NCC reverted to voluntary status" },
+          ].map((item, index) => (
+            <motion.div
+              key={item.year}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="flex gap-4 items-start"
+            >
+              <div className="w-16 h-8 bg-primary rounded flex items-center justify-center shrink-0">
+                <span className="text-primary-foreground font-bold text-sm">{item.year}</span>
+              </div>
+              <p className="text-muted-foreground pt-1">{item.event}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+};
 
 const About = () => {
-  const nccPledge = `We the cadets of the National Cadet Corps,
-Do solemnly pledge that we shall always uphold the unity of India.
-We resolve to be disciplined and responsible citizens of our nation.
-We shall undertake positive community service in the spirit of selflessness and concern for our fellow beings.`;
-
-  const history = [
-    { year: "1666", event: "Origins in Germany as youth military training" },
-    { year: "1917", event: "University Corps formed in India under British rule" },
-    { year: "1948", event: "NCC established under the NCC Act of India" },
-    { year: "1949", event: "Girls Division of NCC added" },
-    { year: "1950", event: "Naval Wing (NCC) established" },
-    { year: "1952", event: "Air Wing of NCC established" },
-  ];
+  const [activeSection, setActiveSection] = useState<SectionId>("about");
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-primary to-primary/90">
+      <section className="pt-28 pb-8 bg-secondary">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4 animate-fade-in">
-            About <span className="text-saffron">NCC</span>
-          </h1>
-          <p className="text-primary-foreground/80 max-w-2xl mx-auto animate-fade-in animation-delay-100">
-            The National Cadet Corps - India's largest uniformed youth organization 
-            dedicated to developing character and leadership in young citizens.
-          </p>
+          <ScrollReveal>
+            <div className="w-20 h-1 bg-primary mx-auto mb-6" />
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+              About NCC
+            </h1>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* History Section */}
-      <section className="py-16 bg-background">
+      {/* Main Content with Sidebar */}
+      <section className="py-12 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <span className="text-saffron font-semibold text-sm uppercase tracking-wider">
-                Our History
-              </span>
-              <h2 className="text-3xl font-bold text-foreground mt-2 mb-6">
-                The Journey of NCC
-              </h2>
-              <p className="text-muted-foreground mb-4">
-                The National Cadet Corps (NCC) is a Tri-Services Organization comprising 
-                the Army, Navy and Air Force, engaged in grooming the youth of the country 
-                into disciplined and patriotic citizens.
-              </p>
-              <p className="text-muted-foreground mb-4">
-                The NCC in India was formed on 16th April 1948 under the National Cadet 
-                Corps Act of 1948. It was raised on the recommendations of the H. N. Kunzru 
-                Committee in 1946.
-              </p>
-              <p className="text-muted-foreground">
-                The original motto of NCC was "Unity and Discipline" which continues to 
-                guide cadets in their journey of personal and national development.
-              </p>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Sidebar Navigation */}
+            <div className="lg:w-72 shrink-0">
+              <Card className="sticky top-24">
+                <CardContent className="p-2">
+                  <nav className="space-y-1">
+                    {navItems.map((item) => (
+                      <motion.button
+                        key={item.id}
+                        onClick={() => setActiveSection(item.id)}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                          activeSection === item.id
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-secondary text-muted-foreground hover:text-foreground"
+                        }`}
+                        whileHover={{ x: activeSection === item.id ? 0 : 4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <item.icon className="h-5 w-5 shrink-0" />
+                        <span className="font-medium text-sm">{item.label}</span>
+                        {activeSection === item.id && (
+                          <ChevronRight className="h-4 w-4 ml-auto" />
+                        )}
+                      </motion.button>
+                    ))}
+                  </nav>
+                </CardContent>
+              </Card>
             </div>
 
-            <div className="space-y-4">
-              {history.map((item, index) => (
-                <div
-                  key={item.year}
-                  className="flex gap-4 items-start animate-fade-in"
-                  style={{ animationDelay: `${index * 100}ms` }}
+            {/* Content Area */}
+            <div className="flex-1 min-w-0">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeSection}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center shrink-0">
-                    <span className="text-primary-foreground font-bold text-sm">{item.year}</span>
-                  </div>
-                  <div className="pt-2">
-                    <p className="text-foreground">{item.event}</p>
-                  </div>
-                </div>
-              ))}
+                  <Card>
+                    <CardContent className="p-6 md:p-8">
+                      <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
+                        {contentData[activeSection].title}
+                      </h2>
+                      {contentData[activeSection].content}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Aim and Motto Section */}
-      <section className="py-16 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="border-primary/20 hover:border-primary/40 transition-colors">
-              <CardContent className="p-6 text-center">
-                <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Target className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">Aim</h3>
-                <p className="text-muted-foreground text-sm">
-                  To develop character, comradeship, discipline, leadership, secular outlook, 
-                  spirit of adventure, and ideals of selfless service amongst the youth of 
-                  the country.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-saffron/20 hover:border-saffron/40 transition-colors">
-              <CardContent className="p-6 text-center">
-                <div className="h-14 w-14 rounded-full bg-saffron/10 flex items-center justify-center mx-auto mb-4">
-                  <Award className="h-7 w-7 text-saffron" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">Motto</h3>
-                <p className="text-muted-foreground text-sm mb-4">
-                  "Unity and Discipline"
-                </p>
-                <p className="text-muted-foreground text-sm">
-                  This motto emphasizes the importance of staying united as a nation while 
-                  maintaining discipline in all aspects of life.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-accent/20 hover:border-accent/40 transition-colors">
-              <CardContent className="p-6 text-center">
-                <div className="h-14 w-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                  <Heart className="h-7 w-7 text-accent" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">Core Values</h3>
-                <p className="text-muted-foreground text-sm">
-                  Character building, leadership development, national integration, 
-                  spirit of adventure, and commitment to selfless service to the community.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Pledge, Flag, Song Section */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              NCC <span className="text-primary">Essentials</span>
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              The pledge, flag, and song form the spiritual backbone of NCC, 
-              instilling a sense of duty and patriotism in every cadet.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* NCC Pledge */}
-            <Card className="overflow-hidden">
-              <div className="h-2 bg-saffron" />
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-lg bg-saffron/10 flex items-center justify-center">
-                    <BookOpen className="h-5 w-5 text-saffron" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground">NCC Pledge</h3>
-                </div>
-                <div className="bg-secondary/50 rounded-lg p-4">
-                  <p className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed italic">
-                    "{nccPledge}"
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* NCC Flag */}
-            <Card className="overflow-hidden">
-              <div className="h-2 bg-primary" />
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Flag className="h-5 w-5 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground">NCC Flag</h3>
-                </div>
-                <div className="bg-secondary/50 rounded-lg p-4 mb-4">
-                  <div className="flex justify-center gap-1 mb-3">
-                    <div className="w-8 h-20 bg-red-600 rounded-l" />
-                    <div className="w-8 h-20 bg-primary" />
-                    <div className="w-8 h-20 bg-sky-500 rounded-r" />
-                  </div>
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  The NCC flag has three colors in equal proportion - <strong>Red</strong> (Army), 
-                  <strong> Dark Blue</strong> (Navy), and <strong>Light Blue</strong> (Air Force). 
-                  It symbolizes the tri-service nature of the organization.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* NCC Song */}
-            <Card className="overflow-hidden">
-              <div className="h-2 bg-accent" />
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <Music className="h-5 w-5 text-accent" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground">NCC Song</h3>
-                </div>
-                <div className="bg-secondary/50 rounded-lg p-4">
-                  <p className="text-muted-foreground text-sm leading-relaxed italic">
-                    "Hum Sab Bhartiya Hain<br />
-                    Hum Sab Bhartiya Hain<br />
-                    Apni Manzil Ek Hai<br />
-                    Ha Ha Ha Ek Hai<br />
-                    Ho Ho Ho Ek Hai..."
-                  </p>
-                </div>
-                <p className="text-muted-foreground text-sm mt-4">
-                  The NCC Song emphasizes national unity and the shared goal of all 
-                  cadets to serve and protect the nation.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-primary">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-primary-foreground mb-4">
-            Interested in Joining NCC?
-          </h2>
-          <p className="text-primary-foreground/80 max-w-xl mx-auto mb-6">
-            Learn about the different wings and find out which one suits you best.
-          </p>
-          <a
-            href="/wings"
-            className="inline-flex items-center gap-2 bg-saffron hover:bg-saffron/90 text-saffron-foreground px-6 py-3 rounded-lg font-semibold transition-colors"
-          >
-            Explore NCC Wings
-          </a>
         </div>
       </section>
     </Layout>
