@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { FadeIn, SlideUp, StaggerContainer, StaggerItem, ScaleOnHover, RevealLine } from "@/components/ui/motion";
+import { FadeIn, SlideUp, StaggerContainer, StaggerItem, RevealLine } from "@/components/ui/motion";
 import {
   Users, Shield, Target, BookOpen, Award, Tent, Medal, ChevronDown, ChevronUp,
 } from "lucide-react";
@@ -70,58 +70,56 @@ const cCertFAQs = [
   { question: "What is the pass percentage required?", answer: "A minimum of 45% marks in each subject and 50% aggregate is required to pass the C Certificate examination." },
 ];
 
-const TrainingCard = ({ module, index }: { module: TrainingModule; index: number }) => {
+const TrainingCard = ({ module }: { module: TrainingModule }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <ScaleOnHover>
-      <Card className="overflow-hidden h-full group cursor-pointer border-border/50 hover:border-primary/30 transition-all duration-300">
-        <div className="relative h-48 overflow-hidden">
-          <motion.img
-            src={module.image}
-            alt={module.title}
-            className="w-full h-full object-cover"
-            whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.5 }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-primary/90 flex items-center justify-center shadow-lg">
-            <module.icon className="h-5 w-5 text-primary-foreground" />
-          </div>
+    <div className="premium-card gold-glow-hover rounded-md overflow-hidden h-full group cursor-pointer">
+      <div className="relative h-48 overflow-hidden">
+        <motion.img
+          src={module.image}
+          alt={module.title}
+          className="w-full h-full object-cover"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.5 }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+        <div className="absolute top-4 right-4 h-10 w-10 rounded-md bg-gold flex items-center justify-center shadow-lg">
+          <module.icon className="h-5 w-5 text-gold-foreground" />
         </div>
+      </div>
 
-        <CardContent className="p-6">
-          <h3 className="text-xl font-bold text-foreground mb-3 tracking-tight">{module.title}</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-4">{module.shortDescription}</p>
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-foreground mb-3 tracking-tight">{module.title}</h3>
+        <p className="text-muted-foreground text-sm leading-relaxed mb-4">{module.shortDescription}</p>
 
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="overflow-hidden"
-              >
-                <p className="text-muted-foreground text-sm leading-relaxed border-t border-border pt-4 mb-4">
-                  {module.fullDescription}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden"
+            >
+              <p className="text-muted-foreground text-sm leading-relaxed border-t border-border pt-4 mb-4">
+                {module.fullDescription}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-          <motion.button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all duration-300"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {isExpanded ? "Show Less" : "Read More"}
-            {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </motion.button>
-        </CardContent>
-      </Card>
-    </ScaleOnHover>
+        <motion.button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="btn-glossy-navy inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {isExpanded ? "Show Less" : "Read More"}
+          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </motion.button>
+      </div>
+    </div>
   );
 };
 
@@ -139,7 +137,7 @@ const FAQItem = ({ question, answer, index }: { question: string; answer: string
         onClick={() => setIsOpen(!isOpen)}
         className="w-full py-4 flex items-center justify-between text-left group"
       >
-        <span className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300 pr-4">
+        <span className="font-semibold text-foreground group-hover:text-gold transition-colors duration-300 pr-4">
           {question}
         </span>
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.25 }}>
@@ -167,15 +165,15 @@ const Achievements = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-28 pb-16 bg-secondary">
+      <section className="pt-28 pb-16 bg-primary">
         <div className="container mx-auto px-4 text-center">
           <SlideUp>
-            <RevealLine className="w-20 mx-auto mb-6" />
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
+            <RevealLine className="w-20 mx-auto mb-6 bg-gold" />
+            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4 tracking-tight">
               Training at Navrachana
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive training programs designed to develop leadership, discipline, 
+            <p className="text-primary-foreground/70 max-w-2xl mx-auto">
+              Comprehensive training programs designed to develop leadership, discipline,
               and character in our cadets through structured military-style education.
             </p>
           </SlideUp>
@@ -186,9 +184,9 @@ const Achievements = () => {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.08}>
-            {trainingModules.map((module, index) => (
+            {trainingModules.map((module) => (
               <StaggerItem key={module.id}>
-                <TrainingCard module={module} index={index} />
+                <TrainingCard module={module} />
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -196,13 +194,13 @@ const Achievements = () => {
       </section>
 
       {/* About Exams Section */}
-      <section className="py-16 bg-secondary/30">
+      <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <FadeIn className="text-center mb-12">
             <div className="flex items-center justify-center gap-4 mb-4">
-              <RevealLine className="w-8" />
+              <RevealLine className="w-8 bg-gold" />
               <h2 className="text-3xl font-bold text-foreground tracking-tight">About Exams</h2>
-              <RevealLine className="w-8" delay={0.2} />
+              <RevealLine className="w-8 bg-gold" delay={0.2} />
             </div>
           </FadeIn>
 
@@ -218,12 +216,12 @@ const Achievements = () => {
               </TabsList>
 
               <TabsContent value="b-cert">
-                <Card className="border-border/50 shadow-lg">
+                <Card className="premium-card shadow-lg">
                   <CardContent className="p-6">
-                    <div className="bg-primary/5 rounded-lg p-4 mb-6 border border-primary/10">
+                    <div className="bg-gold/5 rounded-md p-4 mb-6 border border-gold/20">
                       <p className="text-foreground font-semibold">
-                        'B' Certificate is awarded to SD/SW Cadets of schools/colleges after 
-                        the completion of 2 years training course and passing 'B' Certificate 
+                        'B' Certificate is awarded to SD/SW Cadets of schools/colleges after
+                        the completion of 2 years training course and passing 'B' Certificate
                         examination conducted by NCC authorities.
                       </p>
                     </div>
@@ -237,12 +235,12 @@ const Achievements = () => {
               </TabsContent>
 
               <TabsContent value="c-cert">
-                <Card className="border-border/50 shadow-lg">
+                <Card className="premium-card shadow-lg">
                   <CardContent className="p-6">
-                    <div className="bg-primary/5 rounded-lg p-4 mb-6 border border-primary/10">
+                    <div className="bg-gold/5 rounded-md p-4 mb-6 border border-gold/20">
                       <p className="text-foreground font-semibold">
-                        'C' Certificate is the highest certification in NCC, awarded after 
-                        completing 3 years of training and demonstrating exceptional 
+                        'C' Certificate is the highest certification in NCC, awarded after
+                        completing 3 years of training and demonstrating exceptional
                         leadership and military skills.
                       </p>
                     </div>
@@ -262,22 +260,22 @@ const Achievements = () => {
       {/* CTA Section */}
       <section className="py-16 bg-background">
         <FadeIn className="container mx-auto px-4 text-center">
-          <Card className="max-w-2xl mx-auto border-border/50 shadow-lg">
+          <Card className="max-w-2xl mx-auto premium-card shadow-lg">
             <CardContent className="p-8">
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}
                 className="inline-block mb-4"
               >
-                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                  <Shield className="h-8 w-8 text-primary" />
+                <div className="h-16 w-16 rounded-md bg-gold/10 flex items-center justify-center mx-auto">
+                  <Shield className="h-8 w-8 text-gold" />
                 </div>
               </motion.div>
               <h3 className="text-2xl font-bold text-foreground mb-3 tracking-tight">
                 Ready to Begin Your Training?
               </h3>
               <p className="text-muted-foreground max-w-md mx-auto">
-                Join NCC Navrachana University and experience comprehensive military 
+                Join NCC Navrachana University and experience comprehensive military
                 training, adventure activities, and character development.
               </p>
             </CardContent>

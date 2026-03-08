@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const carouselImages = [
   {
@@ -34,55 +32,67 @@ const HeroCarousel = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
+    const interval = setInterval(nextSlide, 6000);
     return () => clearInterval(interval);
   }, [nextSlide]);
 
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden group">
-      {/* Images */}
+    <div className="relative w-full h-[500px] md:h-[650px] overflow-hidden group">
+      {/* Images with Ken Burns */}
       {carouselImages.map((image, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-700 ${
+          className={`absolute inset-0 transition-opacity duration-1000 ${
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >
           <img
             src={image.url}
             alt={image.alt}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover ${index === currentIndex ? "ken-burns" : ""}`}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-primary/10 to-background/90" />
         </div>
       ))}
+
+      {/* Hero Title Overlay */}
+      <div className="absolute inset-0 flex items-center justify-center z-10">
+        <div className="text-center px-4">
+          <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tight drop-shadow-2xl">
+            Unity & <span className="text-gradient">Discipline</span>
+          </h2>
+          <p className="mt-4 text-white/80 text-lg md:text-xl font-medium tracking-wide max-w-2xl mx-auto">
+            National Cadet Corps — Navrachana University
+          </p>
+        </div>
+      </div>
 
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-card/80 backdrop-blur flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-card"
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-20"
         aria-label="Previous slide"
       >
         <ChevronLeft className="h-6 w-6 text-foreground" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-card/80 backdrop-blur flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-card"
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-20"
         aria-label="Next slide"
       >
         <ChevronRight className="h-6 w-6 text-foreground" />
       </button>
 
       {/* Indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
         {carouselImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
+            className={`h-1.5 rounded-full transition-all duration-500 ${
               index === currentIndex
-                ? "bg-card w-6"
-                : "bg-card/50 hover:bg-card/70"
+                ? "bg-gold w-8"
+                : "bg-white/40 w-2 hover:bg-white/60"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

@@ -3,7 +3,6 @@ import { FadeIn, SlideUp } from "@/components/ui/motion";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 interface Event {
@@ -33,25 +32,19 @@ const eventsData: YearEvents = {
       date: "17th June",
       title: "Motivational Session",
       description: "An inspiring motivational session was conducted for NCC cadets featuring distinguished speakers who shared their experiences and insights on leadership, discipline, and nation-building.",
-      images: [
-        "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=400&fit=crop",
-      ],
+      images: ["https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&h=400&fit=crop"],
     },
     {
       date: "26th May to 4th June",
       title: "Combined Annual Training Camp",
       description: "The Combined Annual Training Camp (CATC) was organized where cadets underwent rigorous training including drill, weapon training, map reading, and various adventure activities. The camp strengthened camaraderie among cadets from different institutions.",
-      images: [
-        "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=400&fit=crop",
-      ],
+      images: ["https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=400&fit=crop"],
     },
     {
       date: "26th January",
       title: "Republic Day Celebration",
       description: "NCC cadets participated in the Republic Day celebrations with great enthusiasm. The event included flag hoisting ceremony, parade, and cultural programs showcasing the spirit of patriotism and national unity.",
-      images: [
-        "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=400&h=400&fit=crop",
-      ],
+      images: ["https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=400&h=400&fit=crop"],
     },
   ],
   "2024": [
@@ -59,33 +52,25 @@ const eventsData: YearEvents = {
       date: "26th November",
       title: "NCC Day Celebration",
       description: "Celebrated NCC Day with various activities including parade, cultural performances, and felicitation of outstanding cadets. The day commemorated the formation of NCC and its contributions to nation-building.",
-      images: [
-        "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&h=400&fit=crop",
-      ],
+      images: ["https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&h=400&fit=crop"],
     },
     {
       date: "15th August",
       title: "Independence Day Celebration",
       description: "Grand celebration of Independence Day with flag hoisting, patriotic songs, and a march past by NCC cadets. The event instilled a sense of pride and responsibility towards the nation.",
-      images: [
-        "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=400&h=400&fit=crop",
-      ],
+      images: ["https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=400&h=400&fit=crop"],
     },
     {
       date: "21st June",
       title: "International Day of Yoga",
       description: "Cadets participated in yoga sessions to promote health and wellness. The event emphasized the importance of physical fitness and mental well-being in the life of a cadet.",
-      images: [
-        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop",
-      ],
+      images: ["https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop"],
     },
     {
       date: "2nd October",
       title: "Swachh Bharat Abhiyan",
       description: "Cleanliness drive conducted in and around the university campus as part of the Swachh Bharat initiative. Cadets actively participated in cleaning public spaces and spreading awareness about hygiene.",
-      images: [
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
-      ],
+      images: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop"],
     },
   ],
 };
@@ -94,95 +79,69 @@ const years = Object.keys(eventsData).sort((a, b) => parseInt(b) - parseInt(a));
 
 const EventCard = ({ event, index }: { event: Event; index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const isLeft = index % 2 === 0;
 
   return (
-    <FadeIn delay={index * 0.08} direction={index % 2 === 0 ? "left" : "right"}>
-      <motion.div
-        className="relative mb-16"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Date Badge */}
-        <div className="flex justify-center mb-6">
-          <motion.span
-            className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-semibold z-10 shadow-md"
-            whileHover={{ scale: 1.1 }}
+    <div className="relative mb-12">
+      {/* Timeline Node */}
+      <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gold border-4 border-background z-10 hidden md:block shadow-md" />
+
+      <FadeIn delay={index * 0.1} direction={isLeft ? "left" : "right"}>
+        <div
+          className={`flex flex-col md:flex-row items-stretch gap-0 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Spacer for timeline alignment */}
+          <div className="hidden md:block md:w-1/2" />
+
+          {/* Content Card */}
+          <motion.div
+            className={`md:w-1/2 ${isLeft ? "md:pr-12" : "md:pl-12"}`}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3 }}
           >
-            {event.date}
-          </motion.span>
-        </div>
-
-        {/* Content */}
-        <div className={`flex flex-col md:flex-row items-center gap-8 ${
-          index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-        }`}>
-          {/* Text */}
-          <div className={`flex-1 ${index % 2 === 0 ? "md:text-left md:pr-8" : "md:text-right md:pl-8"}`}>
-            <div className={`inline-block w-12 h-1 bg-accent mb-4 ${index % 2 === 0 ? "" : "md:ml-auto"}`} />
-            <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground mb-4 tracking-tight">
-              {event.title}
-            </h3>
-            <motion.p
-              className="text-muted-foreground text-sm leading-relaxed mb-4"
-              animate={{ height: isHovered ? "auto" : "4.5rem" }}
-              style={{ overflow: "hidden" }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {event.description}
-            </motion.p>
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-            >
-              <Link to="/gallery">View Gallery</Link>
-            </Button>
-          </div>
-
-          {/* Images */}
-          <div className="flex-1 flex justify-center">
-            {event.images.length === 1 ? (
-              <motion.div
-                className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-card shadow-xl"
-                whileHover={{ scale: 1.05, boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
-                transition={{ duration: 0.4 }}
-              >
-                <img src={event.images[0]} alt={event.title} className="w-full h-full object-cover" />
-              </motion.div>
-            ) : (
-              <div className="relative w-64 h-64 md:w-80 md:h-80">
-                <motion.div
-                  className="absolute top-0 right-0 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-card shadow-xl z-10"
-                  whileHover={{ scale: 1.1, zIndex: 40 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <img src={event.images[0]} alt={`${event.title} 1`} className="w-full h-full object-cover" />
-                </motion.div>
-                {event.images[1] && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-card shadow-xl z-20"
-                    whileHover={{ scale: 1.1, zIndex: 40 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <img src={event.images[1]} alt={`${event.title} 2`} className="w-full h-full object-cover" />
-                  </motion.div>
-                )}
-                {event.images[2] && (
-                  <motion.div
-                    className="absolute bottom-8 right-8 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-card shadow-xl z-30"
-                    whileHover={{ scale: 1.1, zIndex: 40 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <img src={event.images[2]} alt={`${event.title} 3`} className="w-full h-full object-cover" />
-                  </motion.div>
-                )}
+            <div className="premium-card gold-glow-hover rounded-md overflow-hidden">
+              {/* Image */}
+              <div className="relative h-48 overflow-hidden">
+                <motion.img
+                  src={event.images[0]}
+                  alt={event.title}
+                  className="w-full h-full object-cover"
+                  animate={{ scale: isHovered ? 1.05 : 1 }}
+                  transition={{ duration: 0.6 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+                <span className="absolute bottom-3 left-3 bg-gold text-gold-foreground px-3 py-1 rounded-sm text-xs font-bold tracking-wide">
+                  {event.date}
+                </span>
               </div>
-            )}
-          </div>
+
+              {/* Text */}
+              <div className="p-5">
+                <h3 className="font-heading text-lg font-bold text-foreground mb-2 tracking-tight">
+                  {event.title}
+                </h3>
+                <motion.p
+                  className="text-muted-foreground text-sm leading-relaxed"
+                  animate={{ height: isHovered ? "auto" : "3.75rem" }}
+                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {event.description}
+                </motion.p>
+                <Link
+                  to="/gallery"
+                  className="inline-block mt-3 text-gold text-sm font-semibold hover:underline transition-colors"
+                >
+                  View Gallery →
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
-    </FadeIn>
+      </FadeIn>
+    </div>
   );
 };
 
@@ -204,11 +163,11 @@ const Events = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-28 pb-8 bg-secondary">
+      <section className="pt-28 pb-8 bg-primary">
         <div className="container mx-auto px-4 text-center">
           <SlideUp>
-            <div className="w-16 h-1 bg-primary mx-auto mb-4" />
-            <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground tracking-tight">
+            <div className="w-16 h-1 bg-gold mx-auto mb-4 rounded-full" />
+            <h1 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground tracking-tight">
               Our Events
             </h1>
           </SlideUp>
@@ -222,7 +181,7 @@ const Events = () => {
             <div className="flex items-center justify-center gap-4">
               <motion.button
                 onClick={handlePrevYear}
-                className="p-2 rounded-full hover:bg-muted transition-all duration-300"
+                className="p-2 rounded-md hover:bg-muted transition-all duration-300"
                 disabled={years.indexOf(selectedYear) === years.length - 1}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -234,9 +193,9 @@ const Events = () => {
                   <motion.button
                     key={year}
                     onClick={() => setSelectedYear(year)}
-                    className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    className={`px-6 py-2 rounded-md text-sm font-bold transition-all duration-300 ${
                       selectedYear === year
-                        ? "bg-primary text-primary-foreground shadow-md"
+                        ? "btn-glossy-navy"
                         : "bg-muted text-muted-foreground hover:bg-muted/80"
                     }`}
                     whileHover={{ scale: 1.05 }}
@@ -248,7 +207,7 @@ const Events = () => {
               </div>
               <motion.button
                 onClick={handleNextYear}
-                className="p-2 rounded-full hover:bg-muted transition-all duration-300"
+                className="p-2 rounded-md hover:bg-muted transition-all duration-300"
                 disabled={years.indexOf(selectedYear) === 0}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -261,11 +220,12 @@ const Events = () => {
       </section>
 
       {/* Events Timeline */}
-      <section className="py-12 bg-secondary min-h-[60vh]">
+      <section className="py-12 bg-background min-h-[60vh]">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="relative">
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-border h-full hidden md:block" />
+              {/* Vertical Timeline Line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-gradient-to-b from-gold via-border to-border h-full hidden md:block" />
               <AnimatePresence mode="wait">
                 <motion.div
                   key={selectedYear}
