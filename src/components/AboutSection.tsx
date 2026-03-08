@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FadeIn, RevealLine, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 
 interface AboutCardProps {
   title: string;
@@ -13,30 +13,30 @@ interface AboutCardProps {
 
 const AboutCard = ({ title, description, imageUrl, linkUrl, linkText, reversed }: AboutCardProps) => {
   return (
-    <div className={`grid md:grid-cols-2 gap-8 items-center ${reversed ? "md:flex-row-reverse" : ""}`}>
-      <div className={`space-y-4 ${reversed ? "md:order-2" : ""}`}>
-        <h3 className="font-heading text-2xl md:text-3xl font-semibold text-foreground">
+    <div className={`grid md:grid-cols-2 gap-8 items-center`}>
+      <FadeIn direction={reversed ? "right" : "left"} className={`space-y-4 ${reversed ? "md:order-2" : ""}`}>
+        <h3 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
           {title}
         </h3>
         <p className="text-muted-foreground leading-relaxed">
           {description}
         </p>
-        <Button asChild variant="outline" className="group">
+        <Button asChild variant="outline" className="group transition-all duration-300 hover:shadow-md">
           <a href={linkUrl} target="_blank" rel="noopener noreferrer">
             {linkText}
             <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </a>
         </Button>
-      </div>
-      <div className={`${reversed ? "md:order-1" : ""}`}>
-        <div className="rounded-xl overflow-hidden shadow-lg">
+      </FadeIn>
+      <FadeIn direction={reversed ? "left" : "right"} className={`${reversed ? "md:order-1" : ""}`}>
+        <div className="rounded-xl overflow-hidden shadow-lg border border-border/30">
           <img
             src={imageUrl}
             alt={title}
-            className="w-full h-64 md:h-80 object-cover hover:scale-105 transition-transform duration-500"
+            className="w-full h-64 md:h-80 object-cover hover:scale-105 transition-transform duration-700"
           />
         </div>
-      </div>
+      </FadeIn>
     </div>
   );
 };
@@ -45,12 +45,12 @@ const AboutSection = () => {
   return (
     <section className="py-20 bg-card">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
+        <FadeIn className="text-center mb-16">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
             About Us
           </h2>
-          <div className="section-divider" />
-        </div>
+          <RevealLine className="w-20 mx-auto" />
+        </FadeIn>
 
         <div className="space-y-20">
           <AboutCard
