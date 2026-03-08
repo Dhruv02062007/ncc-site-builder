@@ -15,8 +15,8 @@ const MessageCard = ({ name, role, message, imageUrl, reversed }: MessageCardPro
       <div className={`flex flex-col ${reversed ? "md:flex-row-reverse" : "md:flex-row"} gap-8 items-center`}>
         <div className="flex-shrink-0">
           <motion.div
-            className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-border shadow-xl"
-            whileHover={{ scale: 1.05 }}
+            className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-gold/30 shadow-xl"
+            whileHover={{ scale: 1.05, borderColor: "hsl(43 72% 52%)" }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
           >
             <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
@@ -24,7 +24,7 @@ const MessageCard = ({ name, role, message, imageUrl, reversed }: MessageCardPro
         </div>
         <div className={`flex-1 text-center ${reversed ? "md:text-right" : "md:text-left"}`}>
           <h3 className="font-heading text-2xl font-bold text-foreground mb-1 tracking-tight">{name}</h3>
-          <p className="text-accent font-semibold mb-4 text-sm uppercase tracking-wider">{role}</p>
+          <p className="text-gold font-semibold mb-4 text-sm uppercase tracking-wider">{role}</p>
           <p className="text-muted-foreground leading-relaxed italic">"{message}"</p>
         </div>
       </div>
@@ -40,7 +40,7 @@ const MessageSection = () => {
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
             Message
           </h2>
-          <RevealLine className="w-20 mx-auto" />
+          <RevealLine className="w-20 mx-auto bg-gold" />
         </FadeIn>
 
         <div className="space-y-16 max-w-5xl mx-auto">

@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tent, MapPin, Calendar, Users, Award, Mountain } from "lucide-react";
-import { FadeIn, SlideUp, StaggerContainer, StaggerItem, ScaleOnHover } from "@/components/ui/motion";
+import { FadeIn, SlideUp, StaggerContainer, StaggerItem } from "@/components/ui/motion";
 import { motion } from "framer-motion";
 
 const Camps = () => {
@@ -68,16 +68,16 @@ const Camps = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-28 pb-16 bg-gradient-to-b from-olive to-olive/90">
+      <section className="pt-28 pb-16 bg-primary">
         <div className="container mx-auto px-4 text-center">
           <SlideUp>
-            <h1 className="text-4xl md:text-5xl font-bold text-olive-foreground mb-4 tracking-tight">
-              NCC <span className="text-saffron">Camps</span>
+            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4 tracking-tight">
+              NCC <span className="text-gradient">Camps</span>
             </h1>
           </SlideUp>
           <FadeIn delay={0.15}>
-            <p className="text-olive-foreground/80 max-w-2xl mx-auto">
-              NCC camps provide hands-on training, adventure activities, and leadership 
+            <p className="text-primary-foreground/70 max-w-2xl mx-auto">
+              NCC camps provide hands-on training, adventure activities, and leadership
               development opportunities for cadets throughout the year.
             </p>
           </FadeIn>
@@ -89,10 +89,10 @@ const Camps = () => {
         <div className="container mx-auto px-4">
           <FadeIn className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4 tracking-tight">
-              Types of <span className="text-olive">NCC Camps</span>
+              Types of NCC Camps
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              NCC offers various camps throughout the year, each designed to enhance 
+              NCC offers various camps throughout the year, each designed to enhance
               specific skills and qualities in cadets.
             </p>
           </FadeIn>
@@ -100,35 +100,35 @@ const Camps = () => {
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
             {campTypes.map((camp) => (
               <StaggerItem key={camp.title}>
-                <ScaleOnHover>
-                  <Card className="border-border/50 hover:border-olive/30 transition-all duration-300 h-full group">
+                <motion.div whileHover={{ y: -6 }} transition={{ duration: 0.3 }}>
+                  <Card className="premium-card gold-glow-hover h-full group">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-4 mb-4">
                         <motion.div
-                          className="h-12 w-12 rounded-xl bg-olive/10 flex items-center justify-center group-hover:bg-olive transition-all duration-300"
+                          className="h-12 w-12 rounded-md bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-all duration-300"
                           whileHover={{ rotate: 5 }}
                         >
-                          <camp.icon className="h-6 w-6 text-olive group-hover:text-olive-foreground transition-colors duration-300" />
+                          <camp.icon className="h-6 w-6 text-accent group-hover:text-accent-foreground transition-colors duration-300" />
                         </motion.div>
-                        <span className="text-sm text-olive font-semibold">{camp.duration}</span>
+                        <span className="text-sm text-gold font-bold">{camp.duration}</span>
                       </div>
                       <h3 className="font-bold text-lg text-foreground mb-2 tracking-tight">{camp.title}</h3>
                       <p className="text-muted-foreground text-sm mb-4">{camp.description}</p>
                       <div className="flex flex-wrap gap-2">
                         {camp.activities.slice(0, 3).map((activity) => (
-                          <span key={activity} className="px-2 py-1 bg-olive/10 text-olive text-xs rounded-full font-medium">
+                          <span key={activity} className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-sm font-medium">
                             {activity}
                           </span>
                         ))}
                         {camp.activities.length > 3 && (
-                          <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-full">
+                          <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-sm">
                             +{camp.activities.length - 3} more
                           </span>
                         )}
                       </div>
                     </CardContent>
                   </Card>
-                </ScaleOnHover>
+                </motion.div>
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -136,25 +136,25 @@ const Camps = () => {
       </section>
 
       {/* Upcoming Camps */}
-      <section className="py-16 bg-secondary/30">
+      <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <FadeIn className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4 tracking-tight">
-              Upcoming <span className="text-primary">Camps</span>
+              Upcoming Camps
             </h2>
           </FadeIn>
 
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto" staggerDelay={0.12}>
             {upcomingCamps.map((camp) => (
               <StaggerItem key={camp.name}>
-                <ScaleOnHover>
-                  <Card className="bg-background border-border/50 hover:border-primary/30 transition-all duration-300">
+                <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.3 }}>
+                  <Card className="premium-card gold-glow-hover">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        <span className={`px-3 py-1 rounded-sm text-xs font-bold ${
                           camp.status === "Registration Open"
-                            ? "bg-olive/10 text-olive"
-                            : "bg-saffron/20 text-saffron"
+                            ? "bg-accent/10 text-accent"
+                            : "bg-gold/10 text-gold"
                         }`}>
                           {camp.status}
                         </span>
@@ -162,12 +162,12 @@ const Camps = () => {
                       </div>
                       <h3 className="font-bold text-lg text-foreground mb-2 tracking-tight">{camp.name}</h3>
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin className="h-4 w-4 text-primary" />
+                        <MapPin className="h-4 w-4 text-gold" />
                         <span className="text-sm">{camp.location}</span>
                       </div>
                     </CardContent>
                   </Card>
-                </ScaleOnHover>
+                </motion.div>
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -177,8 +177,8 @@ const Camps = () => {
       {/* Placeholder */}
       <section className="py-16 bg-background">
         <FadeIn className="container mx-auto px-4 text-center">
-          <div className="border-2 border-dashed border-border rounded-xl p-12">
-            <Tent className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <div className="border-2 border-dashed border-gold/30 rounded-md p-12">
+            <Tent className="h-12 w-12 text-gold/50 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-foreground mb-2 tracking-tight">Camp Gallery & Reports</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
               Photos and reports from past camps will be added here. Check back for updates!

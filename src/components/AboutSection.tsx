@@ -1,6 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { FadeIn, RevealLine, StaggerContainer, StaggerItem } from "@/components/ui/motion";
+import { FadeIn, RevealLine } from "@/components/ui/motion";
 
 interface AboutCardProps {
   title: string;
@@ -15,21 +14,25 @@ const AboutCard = ({ title, description, imageUrl, linkUrl, linkText, reversed }
   return (
     <div className={`grid md:grid-cols-2 gap-8 items-center`}>
       <FadeIn direction={reversed ? "right" : "left"} className={`space-y-4 ${reversed ? "md:order-2" : ""}`}>
+        <div className="w-10 h-1 bg-gold rounded-full" />
         <h3 className="font-heading text-2xl md:text-3xl font-bold text-foreground tracking-tight">
           {title}
         </h3>
         <p className="text-muted-foreground leading-relaxed">
           {description}
         </p>
-        <Button asChild variant="outline" className="group transition-all duration-300 hover:shadow-md">
-          <a href={linkUrl} target="_blank" rel="noopener noreferrer">
-            {linkText}
-            <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </a>
-        </Button>
+        <a
+          href={linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-glossy-navy inline-flex items-center gap-2 px-5 py-2.5 rounded-md text-sm"
+        >
+          {linkText}
+          <ExternalLink className="h-4 w-4" />
+        </a>
       </FadeIn>
       <FadeIn direction={reversed ? "left" : "right"} className={`${reversed ? "md:order-1" : ""}`}>
-        <div className="rounded-xl overflow-hidden shadow-lg border border-border/30">
+        <div className="rounded-md overflow-hidden gold-glow-hover border border-border/30">
           <img
             src={imageUrl}
             alt={title}
@@ -49,7 +52,7 @@ const AboutSection = () => {
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
             About Us
           </h2>
-          <RevealLine className="w-20 mx-auto" />
+          <RevealLine className="w-20 mx-auto bg-gold" />
         </FadeIn>
 
         <div className="space-y-20">

@@ -104,30 +104,30 @@ const Wings = () => {
     };
 
     return (
-      <motion.div 
+      <motion.div
         className="flex flex-col items-center gap-2 group cursor-pointer"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
       >
-        <motion.div 
-          className={`${sizeClasses[size]} rounded-full bg-secondary overflow-hidden border-4 border-background shadow-lg relative`}
-          whileHover={{ scale: 1.1, boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}
+        <motion.div
+          className={`${sizeClasses[size]} rounded-full bg-secondary overflow-hidden border-4 border-gold/20 shadow-lg relative`}
+          whileHover={{ scale: 1.1, boxShadow: "0 0 0 3px hsl(43 72% 52% / 0.4), 0 10px 30px rgba(0,0,0,0.2)" }}
           transition={{ duration: 0.3 }}
         >
           {member.image ? (
             <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-muted to-secondary flex items-center justify-center">
-              <span className="text-muted-foreground text-2xl font-semibold">
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+              <span className="text-primary text-2xl font-bold">
                 {member.name.charAt(0)}
               </span>
             </div>
           )}
-          
-          {/* Hover overlay with details */}
-          <motion.div 
+
+          {/* Hover overlay */}
+          <motion.div
             className="absolute inset-0 bg-primary/90 flex items-center justify-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           >
             <p className="text-primary-foreground text-xs text-center font-medium">
@@ -136,14 +136,10 @@ const Wings = () => {
           </motion.div>
         </motion.div>
         <div className="text-center">
-          <motion.p 
-            className="text-sm text-muted-foreground group-hover:text-foreground transition-colors"
-          >
+          <motion.p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
             {member.name}
           </motion.p>
-          <motion.p 
-            className="font-bold text-foreground"
-          >
+          <motion.p className="font-bold text-gold text-sm">
             {member.role}
           </motion.p>
         </div>
@@ -153,12 +149,11 @@ const Wings = () => {
 
   return (
     <Layout>
-      {/* Main Content */}
       <section className="pt-28 pb-20 bg-secondary min-h-screen">
         <div className="container mx-auto px-4">
           {/* Title */}
           <ScrollReveal className="text-center mb-12">
-            <div className="w-16 h-1 bg-primary mx-auto mb-4" />
+            <div className="w-16 h-1 bg-gold mx-auto mb-4 rounded-full" />
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
               Meet the Councils
             </h1>
@@ -168,21 +163,21 @@ const Wings = () => {
           <ScrollReveal delay={0.1} className="flex items-center justify-center gap-2 mb-16">
             <motion.button
               onClick={() => navigateYear("prev")}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
+              className="p-2 rounded-md hover:bg-muted transition-colors"
               disabled={years.indexOf(selectedYear) === 0}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
               <ChevronLeft className="w-5 h-5 text-muted-foreground" />
             </motion.button>
-            
+
             {years.map((year) => (
               <motion.button
                 key={year}
                 onClick={() => setSelectedYear(year)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${
                   selectedYear === year
-                    ? "bg-primary text-primary-foreground"
+                    ? "btn-glossy-navy"
                     : "bg-muted text-muted-foreground hover:bg-muted/80"
                 }`}
                 whileHover={{ scale: 1.05 }}
@@ -191,10 +186,10 @@ const Wings = () => {
                 {year}
               </motion.button>
             ))}
-            
+
             <motion.button
               onClick={() => navigateYear("next")}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
+              className="p-2 rounded-md hover:bg-muted transition-colors"
               disabled={years.indexOf(selectedYear) === years.length - 1}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -217,16 +212,15 @@ const Wings = () => {
 
           {/* Divider */}
           <ScrollReveal>
-            <div className="border-t border-border my-12" />
+            <div className="border-t border-gold/20 my-12" />
           </ScrollReveal>
 
-          {/* Rank Holders Section */}
+          {/* Rank Holders */}
           <ScrollReveal className="mb-16">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-8 h-1 bg-primary" />
+              <div className="w-8 h-1 bg-gold rounded-full" />
               <h2 className="text-2xl font-bold text-foreground">Rank Holders</h2>
             </div>
-            
             <div className="flex flex-wrap justify-center gap-8 md:gap-12">
               {currentData.rankHolders.map((member, index) => (
                 <MemberCard key={index} member={member} size="normal" index={index} />
@@ -236,16 +230,15 @@ const Wings = () => {
 
           {/* Divider */}
           <ScrollReveal>
-            <div className="border-t border-border my-12" />
+            <div className="border-t border-gold/20 my-12" />
           </ScrollReveal>
 
-          {/* Coordinators Section */}
+          {/* Coordinators */}
           <ScrollReveal>
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-8 h-1 bg-primary" />
+              <div className="w-8 h-1 bg-gold rounded-full" />
               <h2 className="text-2xl font-bold text-foreground">Coordinators</h2>
             </div>
-            
             <div className="flex flex-wrap justify-center gap-8 md:gap-16">
               {currentData.coordinators.map((member, index) => (
                 <MemberCard key={index} member={member} size="normal" index={index} />
