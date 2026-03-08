@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
+import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/motion";
+import { motion } from "framer-motion";
 import nccLogo from "@/assets/ncc-logo.webp";
 import navrachanaLogo from "@/assets/navrachana-logo.webp";
 
@@ -21,15 +23,14 @@ const Footer = () => {
 
   return (
     <footer className="bg-primary text-primary-foreground">
-      {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" staggerDelay={0.08}>
           {/* About Column */}
-          <div className="lg:col-span-1">
+          <StaggerItem className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <img src={nccLogo} alt="NCC Logo" className="h-12 w-auto" />
               <div>
-                <h3 className="font-heading font-semibold text-lg">NCC</h3>
+                <h3 className="font-heading font-bold text-lg">NCC</h3>
                 <p className="text-primary-foreground/70 text-xs">Navrachana University</p>
               </div>
             </div>
@@ -38,70 +39,61 @@ const Footer = () => {
               character, discipline, leadership, and a spirit of service among young citizens.
             </p>
             <div className="flex items-center gap-3">
-              <a
-                href="#"
-                className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-              >
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-              >
-                <Youtube className="h-4 w-4" />
-              </a>
+              {[Facebook, Instagram, Youtube].map((Icon, i) => (
+                <motion.a
+                  key={i}
+                  href="#"
+                  className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
+                  whileHover={{ scale: 1.15, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Icon className="h-4 w-4" />
+                </motion.a>
+              ))}
             </div>
-          </div>
+          </StaggerItem>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="font-heading font-semibold text-base mb-4">Quick Links</h4>
+          <StaggerItem>
+            <h4 className="font-heading font-bold text-base mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
+                    className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </StaggerItem>
 
           {/* Resources */}
-          <div>
-            <h4 className="font-heading font-semibold text-base mb-4">Resources</h4>
+          <StaggerItem>
+            <h4 className="font-heading font-bold text-base mb-4">Resources</h4>
             <ul className="space-y-2">
               {resources.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
+                    className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-all duration-300 hover:translate-x-1 inline-block"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </StaggerItem>
 
           {/* Contact */}
-          <div>
-            <h4 className="font-heading font-semibold text-base mb-4">Contact Us</h4>
+          <StaggerItem>
+            <h4 className="font-heading font-bold text-base mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary-foreground/70" />
-                <span className="text-primary-foreground/80">
-                  Navrachana University, Vadodara, Gujarat
-                </span>
+                <span className="text-primary-foreground/80">Navrachana University, Vadodara, Gujarat</span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Phone className="h-4 w-4 flex-shrink-0 text-primary-foreground/70" />
@@ -112,8 +104,8 @@ const Footer = () => {
                 <span className="text-primary-foreground/80">ncc@navrachana.edu.in</span>
               </li>
             </ul>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
       </div>
 
       {/* Bottom Bar */}
@@ -125,9 +117,7 @@ const Footer = () => {
               © {new Date().getFullYear()} NCC Navrachana University. All rights reserved.
             </span>
           </div>
-          <p className="text-xs text-primary-foreground/60 italic">
-            "Unity and Discipline"
-          </p>
+          <p className="text-xs text-primary-foreground/60 italic">"Unity and Discipline"</p>
         </div>
       </div>
     </footer>
